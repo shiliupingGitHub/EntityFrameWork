@@ -4,6 +4,7 @@ namespace EntityFrameWork
     public class Component : Entity
     {
        
-       public Component(World world):base(world){}
+       public Entity Owner {get;set;}
+       public Component(World world, Entity owner):base(world){Owner = owner;}
     }
 }

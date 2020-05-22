@@ -1,3 +1,6 @@
+/*
+
+*/
 using System.Collections.Generic;
 namespace EntityFrameWork
 {
@@ -21,7 +24,7 @@ namespace EntityFrameWork
         }
         public Component AddComponent<T>() where T: Component
         {
-            var c = new T(_world);
+            var c = new T(_world, this);
 
             _components.Add(c);
 
@@ -32,7 +35,7 @@ namespace EntityFrameWork
 
         public Component AddComponent<T, W>(W w) where T: Component
         {
-            var c = new T(_world);
+            var c = new T(_world, this);
 
             _components.Add(c);
     
