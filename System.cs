@@ -11,4 +11,10 @@ namespace EntityFrameWork
         
 
     }
+
+    public class SingleSystem<T> : System
+    {
+
+        public override bool IsInterest(Component component){ return typeof(T) == component.GetType();}
+    }
 }

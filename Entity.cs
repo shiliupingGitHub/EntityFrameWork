@@ -1,15 +1,24 @@
 using System.Collections.Generic;
 namespace EntityFrameWork
 {
-    public class Entity{
-
+    public class Entity : IDisponse {
+        List<Component> _components = new List<Component>();
+        protected World _world;
         public Entity(World w)
         {
             _world = w;
+            _world.AddEntity(this);
         }
-        List<Component> _components = new List<Component>();
-        protected World _world;
 
+        public virtual void Disponse()
+        {
+            foreach(var component in _components)
+            {
+                component.Disponse();
+                OnRemove(component);
+            }
+            _world = null;
+        }
         public Component AddComponent<T>() where T: Component
         {
             var c = new T(_world);
@@ -44,6 +53,7 @@ namespace EntityFrameWork
                        
                 }
             }
+
         }
 
         
@@ -65,16 +75,16 @@ namespace EntityFrameWork
 
         public void RemoveComponent(Component c)
         {
+            c.Disponse();
             _components.Remove(c);
-
-            OnRemove(c);
+  
         }
 
         public void RemoveComponent<T>(Component c, T arg)
         {
+             c.Disponse();
             _components.Remove(c);
-
-            OnRemove(c, arg);
+           
         }
 
         public void BroadCastEvent<T>(T e) where T:Event

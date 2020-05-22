@@ -6,7 +6,20 @@ namespace EntityFrameWork
     public class World
     {
         Dictionary<Type, System> _systems = new Dictionary<Type, System>();
- 
+
+        List<Entity> _entities = new List<Entity>();
+
+        public void AddEntity(Entity entity)
+        {
+            if(!_entities.Contains(entity))
+                _entities.Add(entity);
+        }
+
+        public void RemoveEntity(Entity entity)
+        {
+             if(_entities.Contains(entity))
+                _entities.Remove(entity);
+        }
         public System[] GetInterstSystems(Component c)
         {
             var result = from s  in _systems.Values where s.IsInterest(c) select s;
@@ -43,9 +56,11 @@ namespace EntityFrameWork
         {
             var type = typeof(T);
 
-            if(_systems.Contains(type))
+            if(_systems.TryGetValue(type, out var system))
             {
                 _systems.Remove(type);
+
+                system.Disponse();
                 
             }
         }
