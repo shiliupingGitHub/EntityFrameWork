@@ -3,13 +3,21 @@ namespace EntityFrameWork
 {
     public class System : Entity
     {
+        List<Component> _interest = new List<Component>();
         public System(World world):base(world){}
-        public virtual void OnAwake<T>(Component component, T arg = null){}
-        public virtual void OnRemove<T>(Component component, T arg = null){}
+        public virtual void OnAwake<T>(Component component, T arg = null)
+        {
+            if(!_interest.Contains(component))
+                _interest.Add(component);
+        }
+        public virtual void OnRemove<T>(Component component, T arg = null)
+        {
+            _interest.Remove(component);
+        }
         public virtual bool IsInterest(Component component){ return false;}
         public virtual void OnEvent(Component component, Event e){}
+      
         
-
     }
 
     public class SingleSystem<T> : System

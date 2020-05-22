@@ -1,5 +1,5 @@
 /*
-
+世间万物都有粒子组成=>所有对象都是粒子=>所有都是实体
 */
 using System.Collections.Generic;
 namespace EntityFrameWork
