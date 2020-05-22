@@ -18,24 +18,26 @@ namespace EntityFrameWork
             foreach(var component in _components)
             {
                 component.Disponse();
-                OnRemove(component);
+                OnRemove(component, 0);
             }
             _world = null;
         }
         public Component AddComponent<T>() where T: Component
         {
-            var c = new T(_world, this);
-
+            
+            
+            var c = global::System.Activator.CreateInstance(typeof(T), _world, this) as Component;
+            
             _components.Add(c);
 
-           OnAwake(c);
+           OnAwake(c, 0);
 
             return c;
         }
 
-        public Component AddComponent<T, W>(W w) where T: Component
+        public Component AddComponent<T, W>(W w) where T: Component, new()
         {
-            var c = new T(_world, this);
+            var c = global::System.Activator.CreateInstance(typeof(T), _world, this) as Component;
 
             _components.Add(c);
     
@@ -44,7 +46,7 @@ namespace EntityFrameWork
         }
 
 
-        void OnAwake<T>(Component c, T arg = null)
+        void OnAwake<T>(Component c, T arg = default(T))
         {
              var systems = _world.GetInterstSystems(c);
 
@@ -60,7 +62,7 @@ namespace EntityFrameWork
         }
 
         
-        void OnRemove<T>(Component c, T arg = null)
+        void OnRemove<T>(Component c, T arg = default(T))
         {
              var systems = _world.GetInterstSystems(c);
 
@@ -90,7 +92,7 @@ namespace EntityFrameWork
            
         }
 
-        public void BroadCastEvent<T>(T e) where T:Event
+        public void BroadCastEvent<T>(T e)
         {
          
            foreach(var component in _components)

@@ -1,5 +1,6 @@
 using System.Collections.Generic;
 using System.Linq;
+using System;
 namespace EntityFrameWork
 {
     
@@ -42,9 +43,10 @@ namespace EntityFrameWork
         {
             var type = typeof(T);
 
-            if(!_systems.Contains(type))
+            if(!_systems.ContainsKey(type))
             {
-                 var system = new T(this);
+               
+                 var system =  global::System.Activator.CreateInstance(type, this) as System;
 
                 _systems[typeof(T)] = system;
             }
@@ -69,7 +71,7 @@ namespace EntityFrameWork
         {
             foreach(var system in _systems)
             {
-                switch(system)
+                switch(system.Value)
                 {
                     case ITick tick:
                         tick.Tick();
