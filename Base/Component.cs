@@ -3,6 +3,7 @@ namespace EntityFrameWork
 {
     public class Component : Entity
     {
-        public List<Event> Events = new List<Event>();
+       
+       public Component(World world):base(world){}
     }
 }

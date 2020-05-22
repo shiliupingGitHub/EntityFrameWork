@@ -3,16 +3,12 @@ namespace EntityFrameWork
 {
     public class System : Entity
     {
-        protected List<Component> _interests = new List<Component>();
+        public System(World world):base(world){}
+        public virtual void OnAwake<T>(Component component, T arg = null){}
+        public virtual void OnRemove<T>(Component component, T arg = null){}
+        public virtual bool IsInterest(Component component){ return false;}
+        public virtual void OnEvent(Component component, Event e){}
+        
 
-        public void AddInterest(Component c)
-        {
-            _intersts.Add(c);
-        }
-
-        public void RemoveInterst(Component c)
-        {
-            _intersts.Remove(c);
-        }
     }
 }
