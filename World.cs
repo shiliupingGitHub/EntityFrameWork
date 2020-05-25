@@ -5,7 +5,7 @@ using System.Collections;
 namespace EntityFrameWork
 {
     
-    public class World
+    public sealed class World
     {
         Dictionary<Type, System> _systems = new Dictionary<Type, System>();
 
