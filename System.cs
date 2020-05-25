@@ -26,9 +26,9 @@ namespace EntityFrameWork
   
     }
 
-    public class SingleSystem<T> : System
+    public class BindSystem<T> : System
     {
-        public SingleSystem(World world) : base(world)
+        public BindSystem(World world) : base(world)
         {
         }
 
