@@ -21,7 +21,9 @@ namespace EntityFrameWork
                 component.Disponse();
                 OnRemove(component, 0);
             }
+            _world.RemoveEntity(this);
             _world = null;
+        
         }
         public Component AddComponent<T>() where T: Component
         {
