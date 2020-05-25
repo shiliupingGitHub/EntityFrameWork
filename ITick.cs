@@ -4,4 +4,16 @@ namespace EntityFrameWork
     {
         void Tick();
     }
+
+    public interface IPreTick
+    {
+        void PreTick();
+    }
+
+
+    
+    public interface ILateTick
+    {
+        void LateTick();
+    }
 }

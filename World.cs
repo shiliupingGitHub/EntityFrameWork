@@ -1,6 +1,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System;
+using System.Collections;
 namespace EntityFrameWork
 {
     
@@ -9,6 +10,21 @@ namespace EntityFrameWork
         Dictionary<Type, System> _systems = new Dictionary<Type, System>();
 
         List<Entity> _entities = new List<Entity>();
+
+        List<ITick> _ticks = new List<ITick>();
+
+        List<IPreTick> _preTicks = new List<IPreTick>();
+        List<ILateTick> _lateTicks = new List<ILateTick>();
+
+        Dictionary<Type, IList> _store = new Dictionary<Type, IList>();
+       
+
+        public World()
+        {
+            _store[typeof(ITick)] = _ticks;
+            _store[typeof(IPreTick)] = _preTicks;
+            _store[typeof(ILateTick)] = _lateTicks;
+        }
 
         public void AddEntity(Entity entity)
         {
@@ -49,6 +65,15 @@ namespace EntityFrameWork
                  var system =  global::System.Activator.CreateInstance(type, this) as System;
 
                 _systems[typeof(T)] = system;
+
+                foreach(var s in _store)
+                {
+                    if(s.Key.IsAssignableFrom(type))
+                    {
+                        s.Value.Add(system);
+                    }
+                }
+
             }
            
          
@@ -63,21 +88,41 @@ namespace EntityFrameWork
                 _systems.Remove(type);
 
                 system.Disponse();
+
+                foreach(var s in _store)
+                {
+                    if(s.Key.IsAssignableFrom(type))
+                    {
+                        s.Value.Remove(system);
+                    }
+                }
                 
             }
         }
 
+
+        public void PreTick()
+        {
+            foreach(var t in _preTicks)
+            {
+                t.PreTick();
+            }
+        }
         public void Tick()
         {
-            foreach(var system in _systems)
+            foreach(var t in _ticks)
             {
-                switch(system.Value)
-                {
-                    case ITick tick:
-                        tick.Tick();
-                    break;
-                }
+                t.Tick();
             }
+        }
+
+        public void LateTick()
+        {
+            foreach(var t in _lateTicks)
+            {
+                t.LateTick();
+            }
+
         }
     }
 }
