@@ -12,6 +12,12 @@ namespace EntityFrameWork
             if(!_interest.Contains(component))
                 _interest.Add(component);
         }
+
+        public virtual void OnEnable(Component component)
+        {
+             if(!_interest.Contains(component))
+                _interest.Add(component);
+        }
         public virtual void OnRemove<T>(Component component, T arg = default(T)) 
         {
             _interest.Remove(component);

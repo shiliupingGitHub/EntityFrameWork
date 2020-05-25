@@ -74,9 +74,28 @@ namespace EntityFrameWork
                     }
                 }
 
+                EnableSystem(system);
+
             }
-           
-         
+                  
+        }
+
+        void EnableSystem(System system)
+        {
+            foreach(var e in _entities)
+            {
+                switch(e)
+                {
+                    case Component component:
+                    {
+                        if(system.IsInterest(component))
+                        {
+                            system.OnEnable(component);
+                        }
+                    }
+                    break;
+                }
+            }
         }
 
         public void RemoveSystem<T>()
