@@ -101,7 +101,7 @@ namespace EntityFrameWork
         }
 
 
-        public void PreTick()
+        void PreTick()
         {
             foreach(var t in _preTicks)
             {
@@ -110,13 +110,16 @@ namespace EntityFrameWork
         }
         public void Tick()
         {
+            PreTick();
             foreach(var t in _ticks)
             {
                 t.Tick();
             }
+
+            LateTick();
         }
 
-        public void LateTick()
+        void LateTick()
         {
             foreach(var t in _lateTicks)
             {
