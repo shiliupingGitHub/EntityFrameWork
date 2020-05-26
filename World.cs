@@ -90,7 +90,7 @@ namespace EntityFrameWork
                     {
                         if(system.IsInterest(component))
                         {
-                            system.OnEnable(component);
+                            system.OnEnable(e, component);
                         }
                     }
                     break;

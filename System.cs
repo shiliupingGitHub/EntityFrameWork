@@ -7,13 +7,13 @@ namespace EntityFrameWork
     {
         List<Component> _interest = new List<Component>();
         public System(World world):base(world){}
-        public virtual void OnAwake<T>(Component component, T arg = default(T))
+        public virtual void OnAwake<T>(Entity entity,Component component, T arg = default(T))
         {
             if(!_interest.Contains(component))
                 _interest.Add(component);
         }
 
-        public virtual void OnEnable(Component component)
+        public virtual void OnEnable(Entity entity, Component component)
         {
              if(!_interest.Contains(component))
                 _interest.Add(component);

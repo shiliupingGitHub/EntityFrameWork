@@ -3,15 +3,20 @@
 */
 using System.Collections.Generic;
 using System.Linq;
+using Unity.Collections;
+
 namespace EntityFrameWork
 {
     public class Entity : IDisponse {
+
         List<Component> _components = new List<Component>();
         protected World _world;
         public Entity(World w)
         {
             _world = w;
             _world.AddEntity(this);
+            
+         
         }
 
         public virtual void Disponse()
@@ -27,10 +32,10 @@ namespace EntityFrameWork
         }
         public Component AddComponent<T>() where T: Component
         {
+          
             
-            
-            var c = global::System.Activator.CreateInstance(typeof(T), _world, this) as Component;
-            
+            var c = global::System.Activator.CreateInstance(typeof(T)) as Component;
+
             _components.Add(c);
 
            OnAwake(c, 0);
@@ -40,9 +45,9 @@ namespace EntityFrameWork
 
         public Component AddComponent<T, W>(W w) where T: Component
         {
-            var c = global::System.Activator.CreateInstance(typeof(T), _world, this) as Component;
+            var c = global::System.Activator.CreateInstance(typeof(T)) as Component;
 
-            _components.Add(c);    
+            _components.Append(c);    
             OnAwake(c, w);
             return c;
         }
@@ -74,7 +79,7 @@ namespace EntityFrameWork
             {
                 foreach(var system in systems)
                 {
-                     system.OnAwake(c, arg);
+                     system.OnAwake(this, c, arg);
                        
                 }
             }
