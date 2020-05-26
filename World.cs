@@ -62,8 +62,9 @@ namespace EntityFrameWork
             if(!_systems.ContainsKey(type))
             {
                
-                 var system =  global::System.Activator.CreateInstance(type, this) as System;
-
+                 var system =  global::System.Activator.CreateInstance(type) as System;
+                 
+                 system.OnInit(this);
                 _systems[typeof(T)] = system;
 
                 foreach(var s in _store)

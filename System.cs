@@ -3,10 +3,14 @@ using System.Collections.Generic;
 namespace EntityFrameWork
 {
   
-    public class System : Entity
+    public class System : IDisponse
     {
         List<Component> _interest = new List<Component>();
-        public System(World world):base(world){}
+        private World _world;
+        public virtual void OnInit(World world)
+        {
+            _world = world;
+        }
         public virtual void OnAwake<T>(Entity entity,Component component, T arg = default(T))
         {
             if(!_interest.Contains(component))
@@ -23,15 +27,15 @@ namespace EntityFrameWork
             _interest.Remove(component);
         }
         public virtual bool IsInterest(Component component){ return false;}
-  
+
+        public virtual void Disponse()
+        {
+            _interest.Clear();
+        }
     }
 
     public class BindSystem<T> : System
     {
-        public BindSystem(World world) : base(world)
-        {
-        }
-
         public override bool IsInterest(Component component){ return component.GetType() == typeof(T);}
     }
 

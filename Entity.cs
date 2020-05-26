@@ -1,6 +1,4 @@
-/*
-世间万物都有粒子组成=>所有对象都是粒子=>所有都是实体
-*/
+
 using System.Collections.Generic;
 using System.Linq;
 using Unity.Collections;
@@ -15,8 +13,6 @@ namespace EntityFrameWork
         {
             _world = w;
             _world.AddEntity(this);
-            
-         
         }
 
         public virtual void Disponse()
@@ -37,8 +33,7 @@ namespace EntityFrameWork
             var c = global::System.Activator.CreateInstance(typeof(T)) as Component;
 
             _components.Add(c);
-
-           OnAwake(c, 0);
+            OnAwake(c, 0);
 
             return c;
         }
@@ -57,7 +52,6 @@ namespace EntityFrameWork
         {
             _components.Remove(c);
             c.Disponse();
-           
             OnRemove(c, arg);
            
         }
@@ -80,7 +74,6 @@ namespace EntityFrameWork
                 foreach(var system in systems)
                 {
                      system.OnAwake(this, c, arg);
-                       
                 }
             }
 
