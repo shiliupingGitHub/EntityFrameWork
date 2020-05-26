@@ -47,7 +47,7 @@ namespace EntityFrameWork
         {
             var c = global::System.Activator.CreateInstance(typeof(T)) as Component;
 
-            _components.Append(c);    
+            _components.Add(c);    
             OnAwake(c, w);
             return c;
         }
